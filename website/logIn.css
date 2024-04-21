@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "rubik";
+  src: url("fonts/Rubik.ttf");
+}
+
+* {
+  font-family: "rubik";
+}
+
+body {
+  margin: 0;
+}
+
+#passwordInput {
+  -webkit-text-security: disc;
+}
+
+#messageDiv {
+  color: red;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
