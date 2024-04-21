@@ -9,6 +9,9 @@ import { getQuery, send } from "./_utils";
  * @property {boolean} isFavorite
  */
 
+/**@type {HTMLTitleElement} */
+let title = document.getElementsByTagName("title");
+
 /**@type {HTMLHeadingElement} */
 let titleH1 = document.getElementById("titleH1");
 
@@ -56,6 +59,7 @@ async function appendBook() {
   /**@type {Book} */
   let book = await send("/getBook", bookId);
 
+  document.title = book.title;
   titleH1.innerText = book.title;
   coverImg.src = book.imageSource;
   descriptionDiv.innerText = book.description;

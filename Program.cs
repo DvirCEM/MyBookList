@@ -1,11 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Net;
-using System.Reflection.Metadata;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using UUIDNext;
 using static Project.Utils;
 
@@ -15,11 +12,6 @@ class Program
 {
   static void Main()
   {
-    /*─────────────────────────────────────╮
-    │ Creating the database context object │
-    ╰─────────────────────────────────────*/
-    var databaseContext = new DatabaseContext();
-
     /*───────────────────────────╮
     │ Creating the server object │
     ╰───────────────────────────*/
@@ -35,6 +27,11 @@ class Program
     ╰─────────────────────────*/
     while (true)
     {
+      /*─────────────────────────────────────╮
+      │ Creating the database context object │
+      ╰─────────────────────────────────────*/
+      var databaseContext = new DatabaseContext();
+
       /*────────────────────────────╮
       │ Waiting for an HTTP request │
       ╰────────────────────────────*/
@@ -52,17 +49,19 @@ class Program
         │ Handeling custome requests │
         ╰───────────────────────────*/
         HandleRequests(serverContext, databaseContext);
+
+        /*───────────────────────────────╮
+        │ Saving changes to the database │
+        ╰───────────────────────────────*/
+        databaseContext.SaveChanges();
+
       }
       catch (Exception e)
       {
+        Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(e);
-        Console.WriteLine(e.StackTrace);
+        Console.ResetColor();
       }
-
-      /*───────────────────────────────╮
-      │ Saving changes to the database │
-      ╰───────────────────────────────*/
-      databaseContext.SaveChanges();
 
       /*───────────────────────────────────╮
       │ Sending the response to the client │
@@ -169,12 +168,6 @@ class Program
 
       databaseContext.Favorites.Add(userFavorite);
     }
-
-    // else if (absPath == "/getFavorites") {
-    //   string userId = request.GetBody<string>();
-
-    //   Favorite[] favorites = [.. databaseContext.Favorites.Where(f => f.UserId == userId)];
-    // }
 
     else if (absPath == "/removeFromFavorites")
     {

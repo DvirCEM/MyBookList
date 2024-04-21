@@ -61,7 +61,7 @@ public static class Utils
         fileStr = fileStr
           .Replace(
             "></iframe>",
-            " onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+\"px\";}(this));' style=\"height:200px;width:100%;border:none;overflow:hidden;\"></iframe>"
+            " onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+\"px\";}(this));' style=\"height:200px;width:100%;border:none;overflow:none;\"></iframe>"
           );
 
         var fileBytes = Encoding.UTF8.GetBytes(fileStr);
