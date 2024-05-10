@@ -89,15 +89,6 @@ class Program
       response.Write(userId);
     }
 
-    else if (absPath == "/autoLogIn")
-    {
-      string userId = request.GetBody<string>();
-
-      User user = databaseContext.Users.Find(userId)!;
-
-      response.Write(new { username = user.Username });
-    }
-
     else if (absPath == "/logIn")
     {
       (string username, string password) = request.GetBody<(string, string)>();
@@ -107,6 +98,15 @@ class Program
       )!;
 
       response.Write(user.Id);
+    }
+
+    else if (absPath == "/getUsername")
+    {
+      string userId = request.GetBody<string>();
+
+      User user = databaseContext.Users.Find(userId)!;
+
+      response.Write(user.Username);
     }
 
     else if (absPath == "/addBook")

@@ -19,6 +19,9 @@ let greetingDiv = document.getElementById("greetingDiv");
 /**@type {HTMLButtonElement} */
 let logOutButton = document.getElementById("logOutButton");
 
+/**@type {string | undefined} */
+let id = Cookies.get("id");
+
 logInButton.onclick = function () {
   top.location.href = "logIn.html";
 }
@@ -32,26 +35,24 @@ logOutButton.onclick = function () {
   top.location.href = "index.html";
 }
 
-async function autoLogIn() {
-  let id = Cookies.get("id");
-
+async function getUsername() {
   if (id == undefined) {
     loggedInDiv.classList.add("hidden");
     Cookies.remove("id");
     return;
   }
 
-  /**@type {{username: string} | null} */
-  let user = await send("/autoLogIn", id);
+  /**@type {username | null} */
+  let username = await send("/getUsername", id);
 
-  if (user == null) {
+  if (username == null) {
     loggedInDiv.classList.add("hidden");
     Cookies.remove("id");
     return;
   }
 
   loggedOutDiv.classList.add("hidden");
-  greetingDiv.innerText = "Welcome, " + user.username + "!";
+  greetingDiv.innerText = "Welcome, " + username + "!";
 }
 
-autoLogIn();
+getUsername();
