@@ -21,16 +21,17 @@ class Program
     Console.WriteLine("Server started. Listening for requests...");
     Console.WriteLine("Main page on http://localhost:5000/website/index.html");
 
+
+    /*─────────────────────────────────────╮
+    │ Creating the database context object │
+    ╰─────────────────────────────────────*/
+    var database = new Database();
+
     /*─────────────────────────╮
     │ Processing HTTP requests │
     ╰─────────────────────────*/
     while (true)
     {
-      /*─────────────────────────────────────╮
-      │ Creating the database context object │
-      ╰─────────────────────────────────────*/
-      var databaseContext = new DatabaseContext();
-
       /*────────────────────────────╮
       │ Waiting for an HTTP request │
       ╰────────────────────────────*/
@@ -47,12 +48,12 @@ class Program
         /*───────────────────────────╮
         │ Handeling custome requests │
         ╰───────────────────────────*/
-        HandleRequests(serverContext, databaseContext);
+        HandleRequests(serverContext, database);
 
         /*───────────────────────────────╮
         │ Saving changes to the database │
         ╰───────────────────────────────*/
-        databaseContext.SaveChanges();
+        database.SaveChanges();
 
       }
       catch (Exception e)
@@ -69,7 +70,7 @@ class Program
     }
   }
 
-  static void HandleRequests(HttpListenerContext serverContext, DatabaseContext databaseContext)
+  static void HandleRequests(HttpListenerContext serverContext, Database databaseContext)
   {
     var request = serverContext.Request;
     var response = serverContext.Response;
@@ -80,7 +81,7 @@ class Program
     {
       (string username, string password) = request.GetBody<(string, string)>();
 
-      var userId = Uuid.NewDatabaseFriendly(Database.SQLite).ToString();
+      var userId = Uuid.NewDatabaseFriendly(UUIDNext.Database.SQLite).ToString();
 
       var user = new User(userId, username, password);
       databaseContext.Users.Add(user);
@@ -181,13 +182,13 @@ class Program
   }
 }
 
-class DatabaseContext : DbContextWrapper
+class Database : DbContextWrapper
 {
   public DbSet<User> Users { get; set; }
   public DbSet<Book> Books { get; set; }
   public DbSet<Favorite> Favorites { get; set; }
 
-  public DatabaseContext() : base("Database") { }
+  public Database() : base("Database") { }
 }
 
 class User(string id, string username, string password)

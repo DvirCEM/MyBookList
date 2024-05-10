@@ -1,5 +1,5 @@
 import { send } from "./_utils";
-import Cookies from "https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.mjs";
+import Cookies from "./_cookies";
 
 /**@type {HTMLInputElement} */
 let usernameInput = document.getElementById("usernameInput");
