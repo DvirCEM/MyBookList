@@ -9,6 +9,9 @@ netsh http add urlacl url=http://*:5000/ user=Everyone
 ```
 dotnet run
 ```
+# שמירת ושליפת מידע מה-Database
+![Untitled-2023-10-12-1102](https://github.com/DvirCEM/MyBookList/assets/167659124/27df0da7-988b-4e88-9d19-655800e3027a)
+
 
 # מערכת יצירת המשתמש \ כניסה למשתמש
 
